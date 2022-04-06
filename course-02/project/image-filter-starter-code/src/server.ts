@@ -32,14 +32,14 @@ import { filterImageFromURL, deleteLocalFiles } from "./util/util";
 
   // Root Endpoint
   // Displays a simple message to the user
-  app.get("/filteredimage", async (req, res) => {
+  app.get("/filteredimage", async (req:express.Request, res:express.Response) => {
     const filterImage = await filterImageFromURL(req.query.image_url).catch(
       (err) => err
     );
     if (typeof filterImage === "string") {
-      res.sendFile(filterImage);
+      res.status(200).sendFile(filterImage);
     } else {
-      res.send(filterImage);
+      res.status(422).send(filterImage);
     }
     setTimeout(() => {
       deleteLocalFiles([filterImage]);
